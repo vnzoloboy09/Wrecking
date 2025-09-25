@@ -1,4 +1,8 @@
 package enums;
 
-public class StateType {
+public enum StateType {
+    NONE,
+    PLAY,
+    PAUSE,
+    MENU
 }
