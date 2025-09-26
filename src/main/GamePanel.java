@@ -2,8 +2,10 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 import enums.*;
+import input.Input;
 
 public class GamePanel extends JPanel implements Runnable {
     final int WIDTH = 600;
@@ -13,11 +15,16 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
 
     StateType gameState = StateType.PLAY;
+    Input input = new Input(this);
 
     //------------------------------------------------------//
     GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.BLACK);
+        this.addKeyListener(input);
+        this.addMouseListener(input);
+        this.addMouseMotionListener(input);
+        this.setFocusable(true);
     }
 
     public void launch() {
