@@ -6,7 +6,7 @@ import main.GamePanel;
 import java.awt.event.*;
 
 public class Input implements KeyListener, MouseListener, MouseMotionListener {
-    public boolean[] keyPressed = new boolean[256];
+    public boolean[] keys = new boolean[256];
     public Vector2D mousePos = new Vector2D();
     public boolean mousePressed;
     GamePanel gp;
@@ -15,19 +15,23 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener {
         this.gp = gp;
     }
 
+    public boolean isKeyPressed(int keyCode) {
+        return keys[keyCode];
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         int keycode = e.getKeyCode();
-        if(keycode >= 0 && keycode < keyPressed.length) {
-            keyPressed[e.getKeyCode()] = true;
+        if(keycode >= 0 && keycode < keys.length) {
+            keys[e.getKeyCode()] = true;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         int keycode = e.getKeyCode();
-        if(keycode >= 0 && keycode < keyPressed.length) {
-            keyPressed[e.getKeyCode()] = false;
+        if(keycode >= 0 && keycode < keys.length) {
+            keys[e.getKeyCode()] = false;
         }
     }
 
