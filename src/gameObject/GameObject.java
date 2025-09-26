@@ -8,6 +8,7 @@ abstract public class GameObject {
     public Vector2D position;
     private int width;
     private int height;
+    private BufferedImage image;
 
     public GameObject(Vector2D position,int width,int height) {
         this.position = position.copy();
@@ -39,10 +40,14 @@ abstract public class GameObject {
         this.height = height;
     }
 
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
     public abstract void update();
     public abstract void render(Graphics g);
-    public abstract BufferedImage getImage();
-    public abstract void setImage(BufferedImage image);
-    public abstract void move(Vector2D move);
-    public abstract void moveTo(Vector2D newPosition);
 }

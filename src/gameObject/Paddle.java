@@ -1,46 +1,45 @@
 package gameObject;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
 import extra.Vector2D;
-public class Paddle extends GameObject {
+
+public class Paddle extends GameObject implements Movable {
     private Color color;
+
     public Paddle(Vector2D position, int width, int height, Color color) {
         super(position, width, height);
-        this.color = Color.WHITE;
-    }
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
         this.color = color;
+
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        g2.setColor(color);
+        g2.fillRect(0, 0, width, height);
+        g2.dispose();
+        this.setImage(img);
     }
 
     @Override
     public void update() {
-        //TODO: Implement update
+        //TODO: Implement input
     }
+
     @Override
     public void render(Graphics g) {
-        g.setColor(color);
-        g.drawRect((int)position.x, (int)position.y, this.getWidth(), this.getHeight());
+        if (getImage() != null) {
+            g.drawImage(getImage(), (int)getPosition().x, (int)getPosition().y, null);
+        } else {
+            g.setColor(color);
+            g.fillRect((int)getPosition().x, (int)getPosition().y, getWidth(), getHeight());
+        }
     }
     @Override
-    public BufferedImage getImage() {
-        //TODO: Implement getImage
-        return null;
+    public void move(Vector2D delta) {
+        getPosition().add(delta);
     }
-    @Override
-    public void setImage(BufferedImage image) {
-        //TODO: Implement setImage
-    }
-    @Override
-    public void move(Vector2D move) {
-        this.position.add(move);
-    }
+
     @Override
     public void moveTo(Vector2D newPosition) {
-        this.position = newPosition;
+        setPosition(newPosition);
     }
 }
