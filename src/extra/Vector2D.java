@@ -1,4 +1,4 @@
-package main.extra;
+package extra;
 
 public class Vector2D {
     public double x, y;

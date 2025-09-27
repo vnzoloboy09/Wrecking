@@ -1,7 +1,7 @@
 package main.GUI;
 
 import main.General.AssetManager;
-import main.extra.Vector2D;
+import extra.Vector2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

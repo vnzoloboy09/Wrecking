@@ -1,6 +1,6 @@
 package main;
 
-import main.input.Input;
+import input.Input;
 import enums.StateType;
 import main.General.StateManager;
 import main.State.GameState;

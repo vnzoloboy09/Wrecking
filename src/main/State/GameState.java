@@ -1,7 +1,7 @@
 package main.State;
 
 import main.GUI.Button;
-import main.input.Input;
+import input.Input;
 import main.General.StateManager;
 
 import java.awt.*;

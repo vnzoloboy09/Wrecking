@@ -3,7 +3,7 @@ import enums.StateType;
 import main.State.GameState;
 import main.State.PlayState;
 import main.State.StartState;
-import main.input.Input;
+import input.Input;
 
 public class StateManager {
     public GameState currentState;
