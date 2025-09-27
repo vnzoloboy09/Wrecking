@@ -1,21 +1,28 @@
 package gameObject;
 
 import extra.Vector2D;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 abstract public class GameObject {
     public Vector2D position;
     private int width;
     private int height;
     private BufferedImage image;
+    private Boolean isStatic;
 
-    public GameObject(Vector2D position,int width,int height) {
+    public GameObject(Vector2D position,int width,int height, Boolean isStatic) {
         this.position = position.copy();
         this.width = width;
         this.height = height;
+        this.isStatic = isStatic;
     }
 
+    //----Position----//
     public Vector2D getPosition() {
         return position;
     }
@@ -40,14 +47,36 @@ abstract public class GameObject {
         this.height = height;
     }
 
+    //----Texture----//
+    public void loadImage(String path) {
+        try {
+            image = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public BufferedImage getImage() {
         return image;
     }
 
-    public void setImage(BufferedImage image) {
-        this.image = image;
+    //----Movement----//
+    public void move(Vector2D delta) {
+        if (!isStatic) {
+            position.add(delta);
+        }
     }
-
+    public void moveTo(Vector2D newPosition) {
+        if (!isStatic) {
+            this.position = newPosition.copy();
+        }
+    }
+    public boolean isStatic() {
+        return isStatic;
+    }
+    public void setStatic(boolean isStatic) {
+        this.isStatic = isStatic;
+    }
+    //----Inherit Methods----//
     public abstract void update();
-    public abstract void render(Graphics g);
+    public abstract void render(Graphics2D g);
 }
