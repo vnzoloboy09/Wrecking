@@ -13,9 +13,8 @@ public class GamePanel extends JPanel implements Runnable {
     public static final int HEIGHT = 800;
     final int FPS = 60;
 
-    Thread gameThread;
-
-    StateType gameState = StateType.PLAY;
+    private Thread gameThread;
+    private StateManager stateManager;
     Input input = new Input(this);
 
     public GamePanel() {
@@ -76,4 +75,5 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         g2d.dispose();
+    }
 }
