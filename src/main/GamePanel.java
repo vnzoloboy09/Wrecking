@@ -1,16 +1,16 @@
 package main;
 
+import input.Input;
+import enums.StateType;
+import main.General.StateManager;
+import main.State.GameState;
+
 import javax.swing.*;
 import java.awt.*;
 
-import enums.*;
-import input.Input;
-import gameObject.Paddle;
-import extra.Vector2D;
-
 public class GamePanel extends JPanel implements Runnable {
-    final int WIDTH = 600;
-    final int HEIGHT = 800;
+    public static final int WIDTH = 600;
+    public static final int HEIGHT = 800;
     final int FPS = 60;
 
     Thread gameThread;
@@ -18,23 +18,19 @@ public class GamePanel extends JPanel implements Runnable {
     StateType gameState = StateType.PLAY;
     Input input = new Input(this);
 
-    // Paddle object
-    Paddle paddle;
-
-    //------------------------------------------------------//
-    GamePanel() {
+    public GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.BLACK);
+        this.setDoubleBuffered(true);
+        this.setFocusable(true);
+
+        input = new Input(this);
         this.addKeyListener(input);
         this.addMouseListener(input);
         this.addMouseMotionListener(input);
-        this.setFocusable(true);
 
-        int paddleWidth = 100;
-        int paddleHeight = 20;
-        Vector2D paddlePosition = new Vector2D(WIDTH/2 - paddleWidth/2, HEIGHT - paddleHeight - 50);
-
-        paddle = new Paddle(paddlePosition, paddleWidth, paddleHeight, "C:\\Users\\ad\\IdeaProjects\\Wrecking\\src\\gameObject\\erdplus.png", input, WIDTH);
+        stateManager = new StateManager(input);
+        stateManager.switchState(StateType.MENU);
     }
 
     public void launch() {
@@ -44,14 +40,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = (double) 1000000000 / FPS;
+        double drawInterval = 1000000000.0 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
 
-        while(gameThread != null) {
+        while (gameThread != null) {
             currentTime = System.nanoTime();
-
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
 
@@ -64,26 +59,21 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        switch (gameState) {
-            case PLAY:
-                // Update paddle
-                paddle.update();
-                break;
-            case NONE:
-                System.err.println("State not found!");
-                break;
+        if (stateManager.currentState != null) {
+            stateManager.currentState.update();
+        } else {
+            System.err.println("No current state set!");
         }
     }
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        switch (gameState) {
-            case PLAY:
-                paddle.render(g2d);
-                break;
+        if (stateManager.currentState != null) {
+            stateManager.currentState.render(g2d);
         }
-    }
+
+        g2d.dispose();
 }
