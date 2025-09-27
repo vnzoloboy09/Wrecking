@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-abstract public class GameObject {
+public abstract class GameObject {
     protected Vector2D position;
     protected int width;
     protected int height;

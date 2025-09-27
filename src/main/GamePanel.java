@@ -2,10 +2,11 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 import enums.*;
 import input.Input;
+import gameObject.Paddle;
+import extra.Vector2D;
 
 public class GamePanel extends JPanel implements Runnable {
     final int WIDTH = 600;
@@ -17,6 +18,9 @@ public class GamePanel extends JPanel implements Runnable {
     StateType gameState = StateType.PLAY;
     Input input = new Input(this);
 
+    // Paddle object
+    Paddle paddle;
+
     //------------------------------------------------------//
     GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -25,6 +29,12 @@ public class GamePanel extends JPanel implements Runnable {
         this.addMouseListener(input);
         this.addMouseMotionListener(input);
         this.setFocusable(true);
+
+        int paddleWidth = 100;
+        int paddleHeight = 20;
+        Vector2D paddlePosition = new Vector2D(WIDTH/2 - paddleWidth/2, HEIGHT - paddleHeight - 50);
+
+        paddle = new Paddle(paddlePosition, paddleWidth, paddleHeight, "C:\\Users\\ad\\IdeaProjects\\Wrecking\\src\\gameObject\\erdplus.png", input, WIDTH);
     }
 
     public void launch() {
@@ -56,10 +66,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         switch (gameState) {
             case PLAY:
-                System.out.println("updating the play state");
+                // Update paddle
+                paddle.update();
                 break;
             case NONE:
-                System.err.println("State not find!");
+                System.err.println("State not found!");
                 break;
         }
     }
@@ -68,5 +79,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
+
+        switch (gameState) {
+            case PLAY:
+                paddle.render(g2d);
+                break;
+        }
     }
 }
