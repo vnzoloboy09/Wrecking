@@ -21,6 +21,12 @@ abstract public class GameObject {
         this.height = height;
         this.isStatic = isStatic;
     }
+    public Vector2D getPosition() {
+        return position;
+    }
+    public void setPosition(Vector2D position) {
+        this.position = position.copy();
+    }
     //----Width & Height----//
     public int getWidth() {
         return width;
