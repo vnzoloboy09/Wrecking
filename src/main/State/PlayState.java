@@ -29,7 +29,7 @@ public class PlayState extends GameState {
         Point mousePoint = new Point((int) input.mousePos.x, (int) input.mousePos.y);
         for (Button button : buttons) {
             if(button.rect.contains(mousePoint)) {
-                button.handleEvent();
+                button.checkInput(input.mousePos, input.mousePressed, wasMousePressed);
             }
         }
     }
@@ -48,9 +48,7 @@ public class PlayState extends GameState {
 
     @Override
     public void update() {
-        if (input.mousePressed && !wasMousePressed) {
-            handleButtonInputs();
-        }
+        handleButtonInputs();
         wasMousePressed = input.mousePressed;
     }
 

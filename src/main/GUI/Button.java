@@ -1,6 +1,7 @@
 package main.GUI;
 
 import main.General.AssetManager;
+import main.extra.Vector2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -9,6 +10,8 @@ public class Button {
     private String fileName;
     private Runnable callback;
     private BufferedImage texture;
+    private boolean isHeld;
+    private boolean pressedInside;
 
     public Rectangle rect;
 
@@ -25,10 +28,18 @@ public class Button {
         return true;
     }
 
-    public void handleEvent() {
-        if (callback != null) {
-            callback.run();
+    public void checkInput(Vector2D mousePos, boolean mousePressed, boolean wasMousePressed) {
+        Point mousePoint = new Point((int) mousePos.x, (int) mousePos.y);
+        boolean isMouseOver = rect.contains(mousePoint);
+
+        if (mousePressed && !wasMousePressed) { // Mouse just pressed
+            pressedInside = isMouseOver;
+        } else if (!mousePressed && wasMousePressed && pressedInside && isMouseOver) { // Mouse just released, was pressed inside, and released inside
+            if (callback != null) {
+                callback.run();
+            }
         }
+        isHeld = mousePressed && isMouseOver; // Update hold state
     }
 
     public void render(Graphics g) {
