@@ -16,7 +16,6 @@ public class Paddle extends GameObject {
         //TODO: Implement input
     }
 
-
     @Override
     public void render(Graphics2D g) {
         try {
@@ -30,15 +29,5 @@ public class Paddle extends GameObject {
             //TODO: Add Exception for null image
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void move(Vector2D delta) {
-        getPosition().add(delta);
-    }
-
-    @Override
-    public void moveTo(Vector2D newPosition) {
-        setPosition(newPosition);
     }
 }
