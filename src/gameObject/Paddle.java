@@ -17,13 +17,13 @@ public class Paddle extends GameObject {
     }
 
     @Override
-    public void render(Graphics2D g) {
+    public void render(Graphics2D g2d) {
         try {
-            g.drawImage(getImage(),
-                    (int)getPosition().x,
-                    (int)getPosition().y,
-                    getWidth(),
-                    getHeight(),
+            g2d.drawImage(getImage(),
+                    (int)position.x,
+                    (int)position.y,
+                    width,
+                    height,
                     null);
         } catch (Exception e) {
             //TODO: Add Exception for null image

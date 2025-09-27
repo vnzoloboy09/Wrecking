@@ -9,11 +9,11 @@ import java.io.File;
 import java.io.IOException;
 
 abstract public class GameObject {
-    public Vector2D position;
-    private int width;
-    private int height;
-    private BufferedImage image;
-    private Boolean isStatic;
+    protected Vector2D position;
+    protected int width;
+    protected int height;
+    protected BufferedImage image;
+    protected Boolean isStatic;
 
     public GameObject(Vector2D position,int width,int height, Boolean isStatic) {
         this.position = position.copy();
@@ -21,32 +21,26 @@ abstract public class GameObject {
         this.height = height;
         this.isStatic = isStatic;
     }
-
-    //----Position----//
-    public Vector2D getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector2D position) {
-        this.position = position.copy();
-    }
-
+    //----Width & Height----//
     public int getWidth() {
         return width;
     }
-
     public void setWidth(int width) {
         this.width = width;
     }
-
     public int getHeight() {
         return height;
     }
-
     public void setHeight(int height) {
         this.height = height;
     }
-
+    //----Static flag----//
+    public boolean isStatic() {
+        return isStatic;
+    }
+    public void setStatic(boolean aStatic) {
+        this.isStatic = aStatic;
+    }
     //----Texture----//
     public void loadImage(String path) {
         try {
@@ -58,7 +52,6 @@ abstract public class GameObject {
     public BufferedImage getImage() {
         return image;
     }
-
     //----Movement----//
     public void move(Vector2D delta) {
         if (!isStatic) {
@@ -70,13 +63,7 @@ abstract public class GameObject {
             this.position = newPosition.copy();
         }
     }
-    public boolean isStatic() {
-        return isStatic;
-    }
-    public void setStatic(boolean isStatic) {
-        this.isStatic = isStatic;
-    }
     //----Inherit Methods----//
     public abstract void update();
-    public abstract void render(Graphics2D g);
+    public abstract void render(Graphics2D g2d);
 }
