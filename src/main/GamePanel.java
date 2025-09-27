@@ -8,15 +8,15 @@ import main.State.GameState;
 import javax.swing.*;
 import java.awt.*;
 
-
 public class GamePanel extends JPanel implements Runnable {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 800;
     final int FPS = 60;
 
-    private Thread gameThread;
-    private StateManager stateManager;
-    private Input input;
+    Thread gameThread;
+
+    StateType gameState = StateType.PLAY;
+    Input input = new Input(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -76,5 +76,4 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         g2d.dispose();
-    }
 }

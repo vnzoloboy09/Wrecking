@@ -1,10 +1,9 @@
 package input;
 
-import java.awt.event.*;
 import extra.Vector2D;
 import main.GamePanel;
 
-
+import java.awt.event.*;
 
 public class Input implements KeyListener, MouseListener, MouseMotionListener {
     public boolean[] keys = new boolean[256];
