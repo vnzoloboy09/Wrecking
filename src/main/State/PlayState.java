@@ -6,7 +6,6 @@ import main.General.StateManager;
 import main.GamePanel;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class PlayState extends GameState {
     private boolean wasMousePressed = false;
