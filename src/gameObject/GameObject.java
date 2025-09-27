@@ -12,12 +12,14 @@ abstract public class GameObject {
     protected int height;
     protected BufferedImage image;
     protected Boolean isStatic;
+    protected boolean visible;
 
     public GameObject(Vector2D position,int width,int height, Boolean isStatic) {
         this.position = position.copy();
         this.width = width;
         this.height = height;
         this.isStatic = isStatic;
+        this.visible = visible;
     }
     public Vector2D getPosition() {
         return position;
@@ -71,6 +73,13 @@ abstract public class GameObject {
         if (!isStatic) {
             this.position = newPosition.copy();
         }
+    }
+    //----Visibility----//
+    public Vector2D getCenter() {
+        return new Vector2D(
+            position.x + width / 2.0,
+            position.y + height / 2.0
+        );
     }
     //----Inherit Methods----//
     public abstract void update();

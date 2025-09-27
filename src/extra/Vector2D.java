@@ -131,4 +131,8 @@ public class Vector2D {
     public String toString() {
         return "(" + x + ", " + y + ")";
     }
+
+    public double length() {
+        return Math.sqrt(x * x + y * y);
+    }
 }

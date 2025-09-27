@@ -1,16 +1,19 @@
 package gameObject;
 
-
 import extra.Vector2D;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Brick extends GameObject {
     private boolean breakable = true;
-    private final Color color;
+    private String path;
+    private BufferedImage brickImage;
 
-    public Brick(Vector2D position, double width, double height, Color color) {
-        super(position, (int)width, (int)height, true);
-        this.color = color;
+    public Brick(Vector2D position, double width, double height, String path) {
+        super(position, (int) width, (int) height, true);
+        this.path = path;
+        loadImage(path); 
+        brickImage = getImage();
     }
 
     public boolean isBreakable() {
@@ -27,20 +30,40 @@ public class Brick extends GameObject {
     }
 
     public GameObject create(Vector2D position, double width, double height) {
-        return new Brick(position, width, height, color);
+        return new Brick(position, width, height, path);
     }
 
     public void update(double time) {
-        
     }
 
     @Override
     public void render(Graphics2D g2d) {
         if (!breakable) return;
-        g2d.setColor(color);
-        g2d.fillRect((int)getPosition().x, (int)getPosition().y, (int)getWidth(), (int)getHeight());
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect((int)getPosition().x, (int)getPosition().y, (int)getWidth(), (int)getHeight());
+        try {
+            g2d.drawImage(brickImage,
+                    (int) position.x,
+                    (int) position.y,
+                    width,
+                    height,
+                    null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean handleCollision(Ball ball) {
+        if (!breakable) return false;
+
+        Vector2D ballPos = ball.getPosition();
+        double radius = ball.getRadius();
+
+        if (checkCollision(ballPos, radius)) {
+            hit();
+            ball.reverseY();
+
+            return true;
+        }
+        return false;
     }
 
     public boolean checkCollision(Vector2D ballPos, double ballRadius) {
@@ -70,7 +93,6 @@ public class Brick extends GameObject {
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        // not used
     }
 }

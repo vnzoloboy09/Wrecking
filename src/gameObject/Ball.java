@@ -6,11 +6,15 @@ import java.awt.*;
 public class Ball extends GameObject {
 
     private Vector2D velocity;
+    private int panelWidth;
+    private int panelHeight;
 
-    public Ball(Vector2D position, int width, int height, String path) {
+    public Ball(Vector2D position, int width, int height, String path, int panelWidth, int panelHeight) {
         super(position, width, height, false);
         loadImage(path);
-        this.velocity = new Vector2D(0, -3);
+        this.velocity = new Vector2D(0, -10);
+        this.panelWidth = panelWidth;
+        this.panelHeight = panelHeight;
     }
 
     @Override
@@ -18,11 +22,24 @@ public class Ball extends GameObject {
         position = position.plus(velocity);
 
         if (position.y <= 0) {
-            velocity = new Vector2D(velocity.x, Math.abs(velocity.y));
+            position.y = 0;
+            reverseY();
         }
-            if (position.y + height >= 600) {
-            position = new Vector2D(400, 0);
-            velocity = new Vector2D(0, 3);
+
+        if (position.y + height >= panelHeight) {
+            position = new Vector2D(panelWidth / 2.0 - width / 2.0, panelHeight / 2.0);
+            velocity = new Vector2D(0, -3);
+            System.out.println("Game Over");
+        }
+
+        if (position.x <= 0) {
+            position.x = 0;
+            reverseX();
+        }
+
+        if (position.x + width >= panelWidth) {
+            position.x = panelWidth - width;
+            reverseX();
         }
     }
 
@@ -55,5 +72,13 @@ public class Ball extends GameObject {
 
     public void setVelocity(Vector2D velocity) {
         this.velocity = velocity;
+    }
+
+    public void setAlive(boolean b) {
+
+    }
+
+    public double getRadius() {
+        return width / 2.0;
     }
 }
