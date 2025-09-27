@@ -1,5 +1,6 @@
 package main;
 
+import main.input.Input;
 import enums.StateType;
 import main.General.StateManager;
 import main.State.GameState;
@@ -9,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
 public class GamePanel extends JPanel implements Runnable {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 800;
@@ -16,6 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     private Thread gameThread;
     private StateManager stateManager;
+    private Input input;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -23,17 +26,13 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.setFocusable(true);
 
-        stateManager = new StateManager();
-        stateManager.switchState(StateType.MENU);
+        input = new Input(this);
+        this.addKeyListener(input);
+        this.addMouseListener(input);
+        this.addMouseMotionListener(input);
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (stateManager.currentState != null) {
-                    stateManager.currentState.handleEvent(e);
-                }
-            }
-        });
+        stateManager = new StateManager(input);
+        stateManager.switchState(StateType.MENU);
     }
 
     public void launch() {

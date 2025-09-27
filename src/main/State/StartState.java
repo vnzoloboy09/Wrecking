@@ -1,16 +1,17 @@
 package main.State;
 import enums.StateType;
 import main.GUI.Button;
+import main.input.Input;
 import main.General.StateManager;
 import main.GamePanel;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class StartState extends GameState {
+    private boolean wasMousePressed = false;
 
-    public StartState(StateManager stateManager) {
-        super(stateManager);
+    public StartState(StateManager stateManager, Input input) {
+        super(stateManager,input);
         createButtons();
     }
 
@@ -24,9 +25,12 @@ public class StartState extends GameState {
         }
     }
 
-    private void handleButtonEvents(MouseEvent e) {
+    private void handleButtonInputs() {
+        Point mousePoint = new Point((int) input.mousePos.x, (int) input.mousePos.y);
         for (Button button : buttons) {
-            button.handleEvent(e);
+            if (button.rect.contains(mousePoint)) {
+                button.handleEvent();
+            }
         }
     }
 
@@ -48,16 +52,14 @@ public class StartState extends GameState {
 
     @Override
     public void update() {
-        // Update if needed
+        if (input.mousePressed && !wasMousePressed) {
+            handleButtonInputs();
+        }
+        wasMousePressed = input.mousePressed;
     }
 
     @Override
     public void loadMedia() {
         // Load additional media if needed
-    }
-
-    @Override
-    public void handleEvent(MouseEvent e) {
-        handleButtonEvents(e);
     }
 }

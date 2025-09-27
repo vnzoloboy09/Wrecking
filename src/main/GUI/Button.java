@@ -4,13 +4,13 @@ import main.General.AssetManager;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.event.MouseEvent;
 
 public class Button {
-    private Rectangle rect;
     private String fileName;
     private Runnable callback;
     private BufferedImage texture;
+
+    public Rectangle rect;
 
     public Button(String fileName, Point position, Runnable callback) {
         this.fileName = fileName;
@@ -25,13 +25,9 @@ public class Button {
         return true;
     }
 
-    public void handleEvent(MouseEvent e) {
-        if (e.getID() == MouseEvent.MOUSE_PRESSED && e.getButton() == MouseEvent.BUTTON1) {
-            if (rect.contains(e.getPoint())) {
-                if (callback != null) {
-                    callback.run();
-                }
-            }
+    public void handleEvent() {
+        if (callback != null) {
+            callback.run();
         }
     }
 
