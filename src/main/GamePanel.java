@@ -2,9 +2,11 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
-import gameObject.Paddle;
+import java.awt.event.KeyEvent;
+
 import enums.*;
-import extra.*;
+import input.Input;
+
 public class GamePanel extends JPanel implements Runnable {
     final int WIDTH = 600;
     final int HEIGHT = 800;
@@ -13,23 +15,16 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
 
     StateType gameState = StateType.PLAY;
-    private Paddle paddle;
+    Input input = new Input(this);
+
     //------------------------------------------------------//
     GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.BLACK);
-
-        initializeGameObjects();
-    }
-
-    private void initializeGameObjects() {
-        // Create paddle at bottom center of the screen
-        int paddleWidth = 100;
-        int paddleHeight = 20;
-        int paddleX = (WIDTH - paddleWidth) / 2; // Center horizontally
-        int paddleY = HEIGHT - paddleHeight - 50;  // Near bottom with some margin
-
-        paddle = new Paddle(new Vector2D(paddleX, paddleY), paddleWidth, paddleHeight, Color.WHITE);
+        this.addKeyListener(input);
+        this.addMouseListener(input);
+        this.addMouseMotionListener(input);
+        this.setFocusable(true);
     }
 
     public void launch() {
@@ -73,6 +68,5 @@ public class GamePanel extends JPanel implements Runnable {
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
-        paddle.render(g2d);
     }
 }
